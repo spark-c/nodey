@@ -1,34 +1,39 @@
 import React from 'react';
-import unsplash from '../api/unsplash.js';
-import SearchBar from './SearchBar';
-import ImageList from './ImageList';
-
-// import api access token
+import SearchBar from './SearchBar.js';
+import VideoList from './VideoList.js';
+import VideoDetail from './VideoDetail.js';
+import './Stylesheet.css';
 
 
 class App extends React.Component {
-    state = { images: [] };
+    state = { selectedVideo: null };
 
-    onSearchSubmit = async (term) => { // need arrow function here to fix "this" error
-        const response = await unsplash.get( // This is a reference to our custom axios in unsplash.js
-            "https://api.unsplash.com/search/photos", {
-                params: { query: term }      
-            }
-        );
+    onFormSubmit = (event) => {
+        event.preventDefault();
 
-        this.setState({ images: response.data.results })
     }
 
+
+    onVideoItemClick = (videoItem) => {
+        this.setState({ selectedVideo: videoItem.props.video })
+        console.log(videoItem.props.video.title)
+    }
+
+    
     render() {
+
+        const showDetail = (this.state.selectedVideo)? <VideoDetail video={this.state.selectedVideo} /> : "" 
+
         return (
-            <div className="ui container" style={{ marginTop: '5vh' }}>
-                <SearchBar onSubmit={this.onSearchSubmit} /> {/* onSubmit here is not the exact same as an HTML onSubmit prop,
-                                                                    and we can name it whatever we like */}
-                {this.state.images.length > 0 ? `Found ${this.state.images.length} images!`:""}
-                <ImageList images={this.state.images} />
+            <div className='ui container'>
+                <SearchBar onSubmit={this.onFormSubmit} />
+                <div className="content">
+                    {showDetail}
+                    <VideoList className="video-list" onVideoItemClick={this.onVideoItemClick} />
+                </div>
             </div>
         );
-    }  
+    }
 }
 
 export default App;
