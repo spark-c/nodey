@@ -1,0 +1,35 @@
+.search-component {
+    max-width: 50%;
+}
+
+.result-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid pink;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 3px pink;
+    margin: 10px;
+    padding-bottom: 5px;
+}
+
+.result-card:hover {
+    box-shadow: 0 0 2px 2px deeppink;
+}
+
+a > .result-card {
+    color: black;
+}
+
+a.result-card:hover {
+    color: black;
+}
+
+.result-title {
+    font-weight: bold;
+    padding: 2px .5vw;
+
+}
+
+.result-description {
+    padding-left: 2vw;
+}
