@@ -1,20 +1,28 @@
 import React from 'react';
 import VideoItem from './VideoItem.js';
 
-class VideoDetail extends React.Component {
-    state = { video: {} }
 
+const VideoDetail = (props) => {
+    const pubDate = new Date(props.video.snippet.publishedAt);
 
-
-    render() {
-
-        return (
-            <div className="detail" style={{border: "2px solid red"}}>
-                <div className="embed">{this.props.video.title}</div>
-                <VideoItem video={this.props.video} />
+    return (
+        <div className="detail">
+            <div className="video-container">
+                <div className="ui embed">
+                    <iframe src={`https://youtube.com/embed/${props.video.id.videoId}`} />    
+                </div>
             </div>
-        );
-    }
+            <div className="ui segment">
+                <h4>
+                    {props.video.snippet.title}<br/>
+                    <span className="unbold">{props.video.snippet.channelTitle}</span>
+                </h4>
+                <p>{props.video.snippet.description}</p>
+                <p>{`Published ${pubDate.getMonth()}-${pubDate.getDate()}-${pubDate.getFullYear()}`}</p>
+            </div>
+            {/* <VideoItem video={this.props.video} /> */}
+        </div>
+    );
 }
 
 export default VideoDetail;

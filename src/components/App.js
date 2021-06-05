@@ -29,7 +29,9 @@ class App extends React.Component {
     
     render() {
 
-        const showDetail = (this.state.selectedVideo)? <VideoDetail video={this.state.selectedVideo} /> : "";
+        const showDetail = (this.state.selectedVideo)? 
+            <VideoDetail video={this.state.selectedVideo} /> :
+            <div id="placeholder"><h1>Please select a video!</h1></div>;
 
         return (
             <div className='ui container'>
