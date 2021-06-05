@@ -1,48 +1,28 @@
 import React from 'react';
-import SearchBar from './SearchBar.js';
-import VideoList from './VideoList.js';
-import VideoDetail from './VideoDetail.js';
-import youtube_api from '../api/youtube_api';
-import './Stylesheet.css';
+import Search from './Search';
+// import Accordion from './Accordion';
 
 
-class App extends React.Component {
-    state = { selectedVideo: null, videoResults: [] };
+export default () => {
+    const items = [
+        {
+            title: "What is React?",
+            content: "React is a front end javascript framework"
+        },
+        {
+            title: "Why use React?",
+            content: "React is a favorite JS library amongst engineers"
+        },
+        {
+            title: "How do you use React?",
+            content: "You use React by creating components"
+        }
+    ]
 
-    onQuerySubmit = async (query) => {
-        const response = await youtube_api.get("/search", {
-            params: {
-                q: query
-            }
-        });
-
-        this.setState({ videoResults: response.data.items})
-        console.log(`results: ${this.state.videoResults}`)
-    };
-
-
-    onVideoItemClick = (videoItem) => {
-        this.setState({ selectedVideo: videoItem.props.video });
-        console.log(videoItem.props.video.title);
-    };
-
-    
-    render() {
-
-        const showDetail = (this.state.selectedVideo)? 
-            <VideoDetail video={this.state.selectedVideo} /> :
-            <div id="placeholder"><h1>Please select a video!</h1></div>;
-
-        return (
-            <div className='ui container'>
-                <SearchBar onSubmit={this.onQuerySubmit} />
-                <div className="content">
-                    {showDetail}
-                    <VideoList className="video-list" onVideoItemClick={this.onVideoItemClick} videos={this.state.videoResults} />
-                </div>
-            </div>
-        );
-    };
-}
-
-export default App;
+    return (
+        <div>
+            {/* <Accordion items={items} /> */}
+            <Search />
+        </div>
+    );
+};
