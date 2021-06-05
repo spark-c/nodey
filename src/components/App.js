@@ -7,14 +7,17 @@ import './Stylesheet.css';
 
 
 class App extends React.Component {
-    state = { selectedVideo: null };
+    state = { selectedVideo: null, videoResults: [] };
 
-    onQuerySubmit = (query) => {
-        youtube_api.get("/search", {
+    onQuerySubmit = async (query) => {
+        const response = await youtube_api.get("/search", {
             params: {
                 q: query
             }
         });
+
+        this.setState({ videoResults: response.data.items})
+        console.log(`results: ${this.state.videoResults}`)
     };
 
 
@@ -33,7 +36,7 @@ class App extends React.Component {
                 <SearchBar onSubmit={this.onQuerySubmit} />
                 <div className="content">
                     {showDetail}
-                    <VideoList className="video-list" onVideoItemClick={this.onVideoItemClick} />
+                    <VideoList className="video-list" onVideoItemClick={this.onVideoItemClick} videos={this.state.videoResults} />
                 </div>
             </div>
         );

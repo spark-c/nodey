@@ -4,15 +4,16 @@ class VideoItem extends React.Component {
 
 
     render() {
+        const pubDate = new Date(this.props.video.snippet.publishedAt);
+
         return (
             <div className="video-item" onClick={() => this.props.onVideoItemClick(this)}>
-                <img className="thumbnail" src="" alt="thumbnail" ></img>
+                <img className="thumbnail" src={this.props.video.snippet.thumbnails.default.url} alt="thumbnail" ></img>
                 <div className="text-data">
-                    <div className="title">Title</div> {/* this.props.video.title */}
-                    <div className="channel">By Channel Name</div> {/* this.props.video.author */}
+                    <div className="title">{this.props.video.snippet.title}</div> {/* this.props.video.title */}
+                    <div className="channel">{this.props.video.snippet.channelTitle}</div> {/* this.props.video.author */}
                     <div className="metadata">
-                        <div className='views'>9999 Views</div>
-                        <div className="timestamp">1 Month Ago</div>
+                        <div className="timestamp">{`Published ${pubDate.getMonth()}-${pubDate.getDate()}-${pubDate.getFullYear()}`}</div>
                     </div>
                 </div>
             </div>
