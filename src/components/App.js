@@ -1,9 +1,10 @@
 import React from 'react';
-import Search from './Search';
+import Dropdown from './Dropdown';
+// import Search from './Search';
 // import Accordion from './Accordion';
 
 
-export default () => {
+const App = () => {
     const items = [
         {
             title: "What is React?",
@@ -22,7 +23,10 @@ export default () => {
     return (
         <div>
             {/* <Accordion items={items} /> */}
-            <Search />
+            {/* <Search /> */}
+            <Dropdown />
         </div>
     );
 };
+
+export default App;

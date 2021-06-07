@@ -40,7 +40,7 @@ const Search = () => {
 
     const resultsList = results.map((result) => {
         return (
-            <a href={`https://en.wikipedia.org?curid=${result.pageid}`}>
+            <a href={`https://en.wikipedia.org?curid=${result.pageid}`} key={result.pageid}>
                 <div className="result-card" key={result.pageid}>
                     <div className="result-title">{result.title}</div>
                     <div className="result-description">{clean(result.snippet)}</div>
