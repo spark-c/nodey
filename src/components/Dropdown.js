@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+// styling requires Semantic UI
 
 
 const Dropdown = (props) => {
@@ -18,9 +19,9 @@ const Dropdown = (props) => {
         document.body.addEventListener('click', onBodyClick, { capture: true });
 
         // clean up event listener in the case the the Dropdown is de-rendered
-        return (
+        return (() => {
             document.body.removeEventListener('click', onBodyClick, { capture: true })
-        );
+        });
 
     }, [] ); // first and only render of the component
 
@@ -28,7 +29,7 @@ const Dropdown = (props) => {
 
 
     const options = props.options.map((option) => {
-        if(! (option.value === props.selectedColor.value)) {
+        if(! (option.value === props.selectedOption.value)) {
             return (
                 <option 
                 className="item" 
@@ -50,7 +51,7 @@ const Dropdown = (props) => {
                     <label className="label">{props.label}</label>
                     <div onClick={() => setOpen(!open)} className={`ui selection dropdown ${open? "visible active":""}`}>
                         <i className="dropdown icon"></i>
-                        <div className="text">{props.selectedColor.label}</div>
+                        <div className="text">{props.selectedOption.label}</div>
                         <div className={`menu ${open? "visible transition":""}`}>
                             {options}
                         </div>
