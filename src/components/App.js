@@ -20,23 +20,23 @@ const App = () => {
         const search = async () => {
             const { data } = await youtube.get("/search", {params: {q:query}});
             setVideos(data.items);
+            setSelectedVideo(data.items[0]);
         }
 
         const timerID = setTimeout(() => {
             if (query) {
-                search()
+                search();
             }
         }, 1000);
 
         return (() => {
-            clearTimeout(timerID)
+            clearTimeout(timerID);
         });
 
     }, [query]);
 
     const onVideoClick = (video) => {
         setSelectedVideo(video);
-        console.log("video set to :", video)
     };
 
     return (
