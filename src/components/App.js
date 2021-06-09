@@ -1,64 +1,51 @@
-import React, { useState } from 'react';
-import NavBar from './NavBar';
-import Route from './Route';
-import Translate from './Translate';
-import Dropdown from './Dropdown';
-import Search from './Search';
-import Accordion from './Accordion';
+import React, {useEffect, useState} from 'react';
+import SearchBar from './SearchBar';
+import VideoDetail from './VideoDetail';
+import VideoList from './VideoList';
+import youtube from '../api/youtube_api';
+import './Stylesheet.css';
 
 
 const App = () => {
+    const [selectedVideo, setSelectedVideo] = useState(null);
+    const [videos, setVideos] = useState([]);
+    const [query, setQuery] = useState("");
 
-    // ACCORDION config //
-    const items = [
-        {
-            title: "What is React?",
-            content: "React is a front end javascript framework"
-        },
-        {
-            title: "Why use React?",
-            content: "React is a favorite JS library amongst engineers"
-        },
-        {
-            title: "How do you use React?",
-            content: "You use React by creating components"
+    const onQueryChange = (query) => {
+        setQuery(query);
+    };
+
+    // watch for query update and search accordingly
+    useEffect(() => {
+        const search = async () => {
+            const { data } = await youtube.get("/search", {params: {q:query}});
+            setVideos(data.items);
         }
-    ];
 
-    // DROPDOWN config //
-    const colorOptions = [
-        {
-            label: "Red",
-            value: "red"
-        },
-        {
-            label: "Green",
-            value: "green"
-        },
-        {
-            label: "Blue",
-            value: "blue"
-        }
-    ];
-    const [selectedColor, setSelectedColor] = useState(colorOptions[0]);
+        const timerID = setTimeout(() => {
+            if (query) {
+                search()
+            }
+        }, 1000);
 
+        return (() => {
+            clearTimeout(timerID)
+        });
+
+    }, [query]);
+
+    const onVideoClick = (video) => {
+        setSelectedVideo(video);
+        console.log("video set to :", video)
+    };
 
     return (
-        <div>
-            <NavBar />
-            <Route path="/">
-                <Accordion items={items} /> 
-            </Route>
-            <Route path="/search">
-                <Search />
-            </Route>
-            <Route path="/dropdown">
-                <Dropdown options={colorOptions} label="Select a Color" selectedOption={selectedColor} onSelectedChange={setSelectedColor} />
-            </Route>
-            <Route path="/translate">
-                <Translate />
-            </Route>  
-            
+        <div className="ui container">
+            <SearchBar onQueryChange={onQueryChange} />
+            <div className="content">
+                {selectedVideo? <VideoDetail video={selectedVideo} />:null}
+                {videos? <VideoList videos={videos} onVideoClick={onVideoClick} />:null}
+            </div>
         </div>
     );
 };
