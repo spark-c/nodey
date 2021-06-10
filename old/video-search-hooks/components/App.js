@@ -2,30 +2,22 @@ import React, {useEffect, useState} from 'react';
 import SearchBar from './SearchBar';
 import VideoDetail from './VideoDetail';
 import VideoList from './VideoList';
-import youtube from '../api/youtube_api';
+import useVideos from '../hooks/useVideos.js';
 import './Stylesheet.css';
 
 
 const App = () => {
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const [videos, setVideos] = useState([]);
     const [query, setQuery] = useState("");
+    // custom hook useVideos abstracts search logic
+    const [videos, search] = useVideos("");
 
-    const onQueryChange = (query) => {
-        setQuery(query);
-    };
 
     // watch for query update and search accordingly
     useEffect(() => {
-        const search = async () => {
-            const { data } = await youtube.get("/search", {params: {q:query}});
-            setVideos(data.items);
-            setSelectedVideo(data.items[0]);
-        }
-
         const timerID = setTimeout(() => {
             if (query) {
-                search();
+                search(query);
             }
         }, 1000);
 
@@ -35,16 +27,18 @@ const App = () => {
 
     }, [query]);
 
-    const onVideoClick = (video) => {
-        setSelectedVideo(video);
-    };
+    // autoselect first video from results
+    useEffect(() => {
+        setSelectedVideo(videos[0]);
+    }, [videos]);
+
 
     return (
         <div className="ui container">
-            <SearchBar onQueryChange={onQueryChange} />
+            <SearchBar onQueryChange={setQuery} />
             <div className="content">
                 {selectedVideo? <VideoDetail video={selectedVideo} />:null}
-                {videos? <VideoList videos={videos} onVideoClick={onVideoClick} />:null}
+                {videos? <VideoList videos={videos} onVideoClick={setSelectedVideo} />:null}
             </div>
         </div>
     );

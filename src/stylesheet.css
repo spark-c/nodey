@@ -1,0 +1,28 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-top: 10vh;
+}
+
+.song-list {
+    grid-column: 2 / 4;
+}
+
+.song-item {
+    border: 1px solid red;
+}
+
+.song-detail {
+    grid-column: 4 / 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
