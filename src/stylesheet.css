@@ -9,7 +9,7 @@
 }
 
 .song-item {
-    border: 1px solid red;
+    padding-top: 3px;
 }
 
 .song-detail {
